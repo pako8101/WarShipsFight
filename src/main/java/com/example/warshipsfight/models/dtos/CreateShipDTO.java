@@ -2,21 +2,23 @@ package com.example.warshipsfight.models.dtos;
 
 import com.example.warshipsfight.models.ShipType;
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 public class CreateShipDTO {
     @NotBlank
-    @Size(min = 2,max = 10)
+    @Size(min = 2, max = 10)
     private String name;
     @Positive
     private long power;
     @Positive
     private long health;
     @PastOrPresent
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate created;
-    @NotNull
-    private ShipType category;
+@Positive
+    private int category = -1;
 
     public CreateShipDTO() {
     }
@@ -53,11 +55,11 @@ public class CreateShipDTO {
         this.created = created;
     }
 
-    public ShipType getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(ShipType category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 }
