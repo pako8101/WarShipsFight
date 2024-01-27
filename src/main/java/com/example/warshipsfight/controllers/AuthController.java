@@ -1,5 +1,6 @@
 package com.example.warshipsfight.controllers;
 
+import com.example.warshipsfight.models.dtos.LoginDTO;
 import com.example.warshipsfight.models.dtos.UserRegistrationDTO;
 import com.example.warshipsfight.services.AuthService;
 import jakarta.validation.Valid;
@@ -21,6 +22,10 @@ public class AuthController {
     @ModelAttribute("registrationDTO")
     public UserRegistrationDTO initRegistrationDTO(){
         return new UserRegistrationDTO();
+    }
+    @ModelAttribute("loginDTO")
+    public LoginDTO loginDTO(){
+        return new LoginDTO();
     }
 
     @GetMapping("/register")
@@ -47,6 +52,21 @@ public class AuthController {
     private String login() {
         return "login";
     }
+@PostMapping("/login")
+    private String login(@Valid LoginDTO loginDTO,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()||!this.authService.login(loginDTO)){
+            redirectAttributes.addFlashAttribute("loginDTO",loginDTO);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.loginDTO"
+                    ,bindingResult);
 
+            return "redirect:/login";
+        }
+
+        return "redirect:/home";
+
+}
 
 }
