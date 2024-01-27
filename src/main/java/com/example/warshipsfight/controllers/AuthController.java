@@ -20,11 +20,12 @@ public class AuthController {
     }
 
     @ModelAttribute("registrationDTO")
-    public UserRegistrationDTO initRegistrationDTO(){
+    public UserRegistrationDTO initRegistrationDTO() {
         return new UserRegistrationDTO();
     }
+
     @ModelAttribute("loginDTO")
-    public LoginDTO loginDTO(){
+    public LoginDTO loginDTO() {
         return new LoginDTO();
     }
 
@@ -37,10 +38,10 @@ public class AuthController {
     public String register(@Valid UserRegistrationDTO registrationDTO,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors() || !this.authService.register(registrationDTO)){
-            redirectAttributes.addFlashAttribute("registrationDTO",registrationDTO);
+        if (bindingResult.hasErrors() || !this.authService.register(registrationDTO)) {
+            redirectAttributes.addFlashAttribute("registrationDTO", registrationDTO);
             redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.registrationDTO",bindingResult);
+                    "org.springframework.validation.BindingResult.registrationDTO", bindingResult);
 
             return "redirect:/register";
         }
@@ -52,21 +53,26 @@ public class AuthController {
     private String login() {
         return "login";
     }
-@PostMapping("/login")
+
+    @PostMapping("/login")
     private String login(@Valid LoginDTO loginDTO,
                          BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes){
-        if (bindingResult.hasErrors()||!this.authService.login(loginDTO)){
-            redirectAttributes.addFlashAttribute("loginDTO",loginDTO);
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("loginDTO", loginDTO);
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.loginDTO"
-                    ,bindingResult);
+                    , bindingResult);
 
             return "redirect:/login";
         }
-
+        if (!this.authService.login(loginDTO)) {
+            redirectAttributes.addFlashAttribute("loginDTO", loginDTO);
+            redirectAttributes.addFlashAttribute("badCredentials", true);
+            return "redirect:/login";
+        }
         return "redirect:/home";
 
-}
+    }
 
 }
