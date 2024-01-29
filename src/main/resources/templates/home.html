@@ -1,12 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Battleships Application</title>
-    <link rel="stylesheet" href="/css/reset-css.css"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/style.css"/>
+   <th:block th:replace="~{fragments/head}">
+   </th:block>
 </head>
 <body class="body-main">
     <header th:include="~{fragments/navigation}">
@@ -20,7 +16,7 @@
                     <div class="card-body d-flex flex-column align-items-start">
                         <strong class="d-inline-block mb-2 text-primary">Attacker</strong>
                         <span th:text="${@loggedUser.fullName}"></span>
-                        <h3 class="mb-0 text-white">
+                        <h3 style="color:lightcoral; font-weight: bold" class="mb-0 text-white">
                             Select the attacker
                         </h3>
                         <div class="mb-1 text-white">Select one of the ships that are owned by the current user</div>
@@ -75,8 +71,7 @@
         </div>
     </div>
 </main>
-<footer class="container text-white">
-    <p>&copy;SoftUni Spring Team 2021. All rights reserved.</p>
-</footer>
+    <th:block th:replace="~{fragments/footer}">
+    </th:block>
 </body>
 </html>

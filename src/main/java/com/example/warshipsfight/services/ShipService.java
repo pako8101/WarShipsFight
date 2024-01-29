@@ -5,13 +5,16 @@ import com.example.warshipsfight.models.Ship;
 import com.example.warshipsfight.models.ShipType;
 import com.example.warshipsfight.models.User;
 import com.example.warshipsfight.models.dtos.CreateShipDTO;
+import com.example.warshipsfight.models.dtos.ShipDTO;
 import com.example.warshipsfight.repositories.CategoryRepository;
 import com.example.warshipsfight.repositories.ShipRepository;
 import com.example.warshipsfight.repositories.UserRepository;
 import com.example.warshipsfight.session.LoggedUser;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShipService {
@@ -19,7 +22,7 @@ public class ShipService {
     final private ShipRepository shipRepository;
     private final LoggedUser loggedUser;
     final private UserRepository userRepository;
-    private CategoryRepository categoryRepository;
+    final private CategoryRepository categoryRepository;
 
     public ShipService(ShipRepository shipRepository, CategoryRepository categoryRepository,
                        LoggedUser loggedUser, UserRepository userRepository) {
@@ -56,5 +59,16 @@ ship.setUser(owner.get());
 
         this.shipRepository.save(ship);
         return true;
+    }
+
+    public List<ShipDTO> getShipsOwnedBy (long ownerId){
+
+        return this.shipRepository.findByUserId(ownerId)
+                .stream()
+                .map(ShipDTO::new)
+                .collect(Collectors.toList());
+    }
+    public List<ShipDTO> getShipsNotOwnedBy (long ownerId){
+        return null;
     }
 }
