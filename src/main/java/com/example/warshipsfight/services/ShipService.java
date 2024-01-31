@@ -12,6 +12,7 @@ import com.example.warshipsfight.repositories.UserRepository;
 import com.example.warshipsfight.session.LoggedUser;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,6 +70,16 @@ ship.setUser(owner.get());
                 .collect(Collectors.toList());
     }
     public List<ShipDTO> getShipsNotOwnedBy (long ownerId){
-        return null;
+        return this.shipRepository.findByUserIdNot(ownerId)
+                .stream()
+                .map(ShipDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ShipDTO> getAllSorted() {
+        return this.shipRepository.findByOrderByHealthAscNameDescPowerAsc()
+                .stream()
+                .map(ShipDTO::new)
+                .collect(Collectors.toList());
     }
 }
