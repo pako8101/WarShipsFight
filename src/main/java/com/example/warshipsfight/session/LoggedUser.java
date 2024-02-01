@@ -20,6 +20,9 @@ public class LoggedUser {
         this.fullName = "";
     }
 
+    public LoggedUser() {
+    }
+
     public Long getId() {
         return id;
     }

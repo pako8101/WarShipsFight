@@ -74,5 +74,10 @@ public class AuthController {
         return "redirect:/home";
 
     }
+    @GetMapping("/logout")
+    private String logout() {
+
+        return "redirect:/login";
+    }
 
 }
