@@ -76,7 +76,7 @@ public class AuthController {
     }
     @GetMapping("/logout")
     private String logout() {
-
+this.authService.logout();
         return "redirect:/login";
     }
 
