@@ -9,11 +9,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+//@RequestMapping("/")
 public class AuthController {
-    private AuthService authService;
+    private final AuthService authService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
@@ -31,6 +33,9 @@ public class AuthController {
 
     @GetMapping("/register")
     public String register() {
+        if (this.authService.isLoggedIn()){
+            return "redirect:/home";
+        }
         return "register";
     }
 
@@ -38,6 +43,9 @@ public class AuthController {
     public String register(@Valid UserRegistrationDTO registrationDTO,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) {
+        if (this.authService.isLoggedIn()){
+            return "redirect:/home";
+        }
         if (bindingResult.hasErrors() || !this.authService.register(registrationDTO)) {
             redirectAttributes.addFlashAttribute("registrationDTO", registrationDTO);
             redirectAttributes.addFlashAttribute(
@@ -51,6 +59,9 @@ public class AuthController {
 
     @GetMapping("/login")
     private String login() {
+        if (this.authService.isLoggedIn()){
+            return "redirect:/home";
+        }
         return "login";
     }
 
@@ -58,6 +69,9 @@ public class AuthController {
     private String login(@Valid LoginDTO loginDTO,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
+        if (this.authService.isLoggedIn()){
+            return "redirect:/home";
+        }
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("loginDTO", loginDTO);
             redirectAttributes.addFlashAttribute(
@@ -77,7 +91,7 @@ public class AuthController {
     @GetMapping("/logout")
     private String logout() {
 this.authService.logout();
-        return "redirect:/login";
+        return "redirect:/";
     }
 
 }

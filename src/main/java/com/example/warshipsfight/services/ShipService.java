@@ -50,6 +50,7 @@ public class ShipService {
         };
         Category category = this.categoryRepository.findByName(type);
         Optional<User> owner = this.userRepository.findById(this.loggedUser.getId());
+
         Ship ship = new Ship();
 ship.setName(createShipDTO.getName());
 ship.setPower(createShipDTO.getPower());
